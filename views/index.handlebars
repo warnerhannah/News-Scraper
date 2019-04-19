@@ -1,0 +1,50 @@
+<div>
+    {{#each articles}}
+    <hr />
+    <h3>{{this.headline}}</h3>
+    <a href={{this.url}}>Go To Article</a>
+    <button id="save">Save Article</button>
+    <h5>Article comments</h5>
+    {{#each this.comments}}
+    <p>{{this.body}}
+        {{!-- <form action="/api/{{this._id}}/comment" method="PUT">
+            <button id="delete">Delete Comment</button>
+        </form> --}}
+        </p>
+
+    <small>{{this.createdDate}}</small>
+    {{/each}}
+    <form action="/api/{{this._id}}/comment" method="POST">
+        <textarea name="body"></textarea>
+        <button type="submit">Submit Comment</button>
+    </form>
+    <hr />
+    {{/each}}
+
+
+</div>
+
+<script type="text/javascript">
+    $(document).on("click", "#delete", function () {
+        $.ajax({
+            method: "PUT",
+            url: "/api/" + {{ this._id }} + "/comment",
+  })
+        .then(function (data) {
+            console.log(data);
+            console.log("deleted")
+        });
+});
+
+    $(document).on("click", "#save", function () {
+        $.ajax({
+            method: "POST",
+            url: "/api/saved",
+  })
+        .then(function (data) {
+            console.log(data);
+            console.log("deleted")
+        });
+});
+
+</script>
